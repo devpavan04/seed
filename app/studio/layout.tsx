@@ -1,15 +1,15 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { Separator } from "@/components/ui/separator"
+import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export default function StudioLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
@@ -23,10 +23,8 @@ export default function StudioLayout({
           />
           <span className="font-medium">Studio</span>
         </header>
-        <main className="flex-1 p-4">
-          {children}
-        </main>
+        <main className="flex-1 p-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

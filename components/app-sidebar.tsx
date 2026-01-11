@@ -1,16 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  Home,
-  Layers,
-  Moon,
-  Settings,
-  Sparkles,
-  Sun,
-} from "lucide-react"
-import Link from "next/link"
-import { useTheme } from "next-themes"
+import * as React from "react";
+import { Home, Layers, Moon, Settings, Sparkles, Sun } from "lucide-react";
+import Link from "next/link";
+import { useTheme } from "next-themes";
 
 import {
   Sidebar,
@@ -23,13 +16,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   {
@@ -52,10 +45,10 @@ const navItems = [
     url: "/studio/settings",
     icon: Settings,
   },
-]
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { setTheme } = useTheme()
+  const { setTheme } = useTheme();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -94,8 +87,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton tooltip="Toggle theme">
-                  <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <Sun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                  <Moon className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                   <span>Theme</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -116,5 +109,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

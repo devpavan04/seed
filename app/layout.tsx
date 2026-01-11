@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Seed",
-  description: "Turn prompts into shippable p5.js sketches with deterministic outputs, parameter controls, and exports.",
+  description:
+    "Turn prompts into shippable p5.js sketches with deterministic outputs, parameter controls, and exports.",
 };
 
 export default function RootLayout({

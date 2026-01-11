@@ -8,5 +8,5 @@ export default function StudioPage() {
       </div>
       <div className="bg-muted/50 min-h-[50vh] flex-1 rounded-xl" />
     </div>
-  )
+  );
 }
