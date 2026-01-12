@@ -1,3 +1,3 @@
 # Seed
 
-Turn prompts into shippable p5.js sketches with deterministic outputs, parameter controls, and exports.
+Generative art studio that turns natural language into p5.js sketches with parameter controls, version history, and multi-format exports 🌱
