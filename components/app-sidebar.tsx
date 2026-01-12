@@ -1,10 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Home, Layers, Moon, Settings, Sparkles, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 
+import { Home, Layers, Moon, Settings, Sparkles, Sun } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -17,12 +24,6 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   {
