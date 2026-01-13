@@ -114,3 +114,118 @@ export function UserCard({ user }: Props) {
 pnpm dlx shadcn@latest add button    # Add single component
 pnpm dlx shadcn@latest add -a        # Add all components
 ```
+
+---
+
+## Convex
+
+**Function Types:**
+
+```typescript
+// Public query - client-callable, read-only
+export const current = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return null;
+    return await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique();
+  },
+});
+
+// Public mutation - client-callable, read-write
+export const create = mutation({
+  args: { name: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("items", { name: args.name });
+  },
+});
+
+// Internal mutation - only callable from other Convex functions
+export const upsertFromClerk = internalMutation({
+  args: { data: v.any() },
+  handler: async (ctx, { data }) => {
+    /* ... */
+  },
+});
+
+// HTTP action - webhook handlers
+http.route({
+  path: "/webhook",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    /* ... */
+  }),
+});
+```
+
+**Required:**
+
+- Always validate args with `v.*` validators
+- Use indexes for queries (`withIndex`)
+- Check auth with `ctx.auth.getUserIdentity()` in protected functions
+- Use `internal.*` for functions only called by other Convex functions
+
+**Forbidden:**
+
+- Direct `ctx.db.query("table").collect()` without filters (fetch all rows)
+- Storing sensitive data without encryption
+- Using `v.any()` except for trusted sources (webhooks)
+
+**Schema Pattern:**
+
+```typescript
+// convex/schema.ts
+export default defineSchema({
+  users: defineTable({
+    clerkId: v.string(),
+    email: v.string(),
+  }).index("by_clerk_id", ["clerkId"]),
+});
+```
+
+---
+
+## Clerk
+
+**Middleware Pattern:**
+
+```typescript
+// middleware.ts
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isPublicRoute = createRouteMatcher(["/", "/studio(.*)"]);
+
+export default clerkMiddleware(async (auth, request) => {
+  if (!isPublicRoute(request)) {
+    await auth.protect();
+  }
+});
+```
+
+**Component Usage:**
+
+```typescript
+// Conditional rendering based on auth state
+<SignedIn>
+  <UserButton />
+</SignedIn>
+<SignedOut>
+  <SignInButton mode="modal">
+    <Button>Sign In</Button>
+  </SignInButton>
+</SignedOut>
+```
+
+**Required:**
+
+- Wrap app with `ClerkProvider` → `ConvexProviderWithClerk` (order matters)
+- Use `createRouteMatcher` for route protection patterns
+- Use Clerk components (`SignedIn`, `SignedOut`, `UserButton`) for auth UI
+
+**Forbidden:**
+
+- Implementing custom auth flows (use Clerk's built-in components)
+- Storing auth tokens manually (Clerk handles this)
