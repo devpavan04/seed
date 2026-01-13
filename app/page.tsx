@@ -3,6 +3,7 @@ import MagnetLines from "@/components/MagnetLines";
 export default function Home() {
   return (
     <div className="bg-background flex min-h-screen flex-col items-center justify-center">
+      {/* https://reactbits.dev/animations/magnet-lines */}
       <main className="flex flex-col items-center gap-4 text-center">
         <MagnetLines
           rows={9}
