@@ -130,3 +130,23 @@
     cursor: pointer;
   }
 }
+
+@layer base {
+  /*
+   * TODO: Revisit focus ring accessibility
+   *
+   * Focus rings are disabled globally for cleaner UI, but this impacts
+   * keyboard navigation accessibility. In the future, consider:
+   * - Re-enabling focus-visible rings for keyboard users
+   * - Using `focus:not(:focus-visible)` to only hide for mouse clicks
+   * - Adding custom focus styles that are less intrusive
+   *
+   * Reference: https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html
+   */
+  *:focus,
+  *:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: none !important;
+  }
+}
