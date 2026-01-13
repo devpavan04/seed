@@ -6,19 +6,20 @@ import type { UserJSON } from "@clerk/backend";
 
 // Internal mutation called from webhook to create/update user
 export const upsertFromClerk = internalMutation({
-  args: { data: v.any() as unknown as { validator: UserJSON } },
+  args: { data: v.any() },
   handler: async (ctx, { data }) => {
+    const clerkUser = data as UserJSON;
     const userAttributes = {
-      clerkId: data.id,
-      email: data.email_addresses[0]?.email_address ?? "",
-      firstName: data.first_name ?? undefined,
-      lastName: data.last_name ?? undefined,
-      imageUrl: data.image_url ?? undefined,
+      clerkId: clerkUser.id,
+      email: clerkUser.email_addresses[0]?.email_address ?? "",
+      firstName: clerkUser.first_name ?? undefined,
+      lastName: clerkUser.last_name ?? undefined,
+      imageUrl: clerkUser.image_url ?? undefined,
     };
 
     const existingUser = await ctx.db
       .query("users")
-      .withIndex("by_clerk_id", (q) => q.eq("clerkId", data.id))
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkUser.id))
       .unique();
 
     if (existingUser) {
