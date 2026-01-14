@@ -1,6 +1,7 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import MagnetLines from "@/components/MagnetLines";
 import { StudioBreadcrumb } from "@/components/studio-breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -29,13 +30,28 @@ export default function StudioLayout({
   return (
     <>
       <SignedOut>
-        <div className="flex min-h-svh items-center justify-center">
-          <SignInButton mode="modal">
-            <Button variant="outline" type="button">
-              <GoogleIcon />
-              Login with Google
-            </Button>
-          </SignInButton>
+        <div className="grid min-h-svh lg:grid-cols-2">
+          <div className="bg-background hidden items-center justify-center overflow-hidden lg:flex">
+            <MagnetLines
+              rows={20}
+              columns={20}
+              containerSize="max(100vh, 50vw)"
+              lineColor="currentColor"
+              lineWidth="2px"
+              lineHeight="16px"
+              baseAngle={0}
+              className="text-foreground"
+            />
+          </div>
+          <div className="bg-background flex flex-col items-center justify-center gap-6">
+            <span className="text-4xl">🌱</span>
+            <SignInButton mode="modal">
+              <Button variant="outline" size="lg" type="button">
+                <GoogleIcon />
+                Continue with Google
+              </Button>
+            </SignInButton>
+          </div>
         </div>
       </SignedOut>
       <SignedIn>

@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { useClerk, useUser } from "@clerk/nextjs";
 import {
   BadgeCheck,
+  Check,
   ChevronsUpDown,
   LogOut,
   Monitor,
@@ -117,21 +118,21 @@ export function NavUser() {
                 <Sun />
                 Light mode
                 {theme === "light" && (
-                  <span className="ml-auto text-xs">Active</span>
+                  <Check className="text-primary ml-auto size-4" />
                 )}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon />
                 Dark mode
                 {theme === "dark" && (
-                  <span className="ml-auto text-xs">Active</span>
+                  <Check className="text-primary ml-auto size-4" />
                 )}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("system")}>
                 <Monitor />
                 System
                 {theme === "system" && (
-                  <span className="ml-auto text-xs">Active</span>
+                  <Check className="text-primary ml-auto size-4" />
                 )}
               </DropdownMenuItem>
             </DropdownMenuGroup>
