@@ -20,7 +20,6 @@ const navMain: NavMainItem[] = [
     title: "Generate",
     url: "/studio",
     icon: Sparkles,
-    isActive: true,
     items: [
       {
         title: "New Sketch",
@@ -47,7 +46,7 @@ const navMain: NavMainItem[] = [
       },
       {
         title: "Starred",
-        url: "/studio/sketches?filter=starred",
+        url: "/studio/sketches/starred",
       },
     ],
   },
@@ -62,7 +61,8 @@ const navMain: NavMainItem[] = [
       },
       {
         title: "p5.js Reference",
-        url: "/docs/p5-reference",
+        url: "https://p5js.org/reference/",
+        external: true,
       },
     ],
   },

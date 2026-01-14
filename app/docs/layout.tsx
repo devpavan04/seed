@@ -28,7 +28,7 @@ function GoogleIcon() {
   );
 }
 
-export default function StudioLayout({
+export default function DocsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -59,11 +59,13 @@ export default function StudioLayout({
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="/studio">Studio</BreadcrumbLink>
+                      <BreadcrumbLink href="/docs">
+                        Documentation
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
-                      <BreadcrumbPage>Generate</BreadcrumbPage>
+                      <BreadcrumbPage>Getting Started</BreadcrumbPage>
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
