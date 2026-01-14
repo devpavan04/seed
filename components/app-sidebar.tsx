@@ -1,112 +1,99 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { useTheme } from "next-themes";
 
-import { Home, Layers, Moon, Settings, Sparkles, Sun } from "lucide-react";
+import { BookOpen, Layers, Settings2, Sparkles } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { NavMain, type NavMainItem } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
+import { SidebarLogo } from "@/components/sidebar-logo";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-const navItems = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
+const navMain: NavMainItem[] = [
   {
     title: "Generate",
     url: "/studio",
     icon: Sparkles,
+    items: [
+      {
+        title: "New Sketch",
+        url: "/studio",
+      },
+      {
+        title: "History",
+        url: "/studio/history",
+      },
+      {
+        title: "Templates",
+        url: "/studio/templates",
+      },
+    ],
   },
   {
-    title: "Projects",
-    url: "/studio/projects",
+    title: "Sketches",
+    url: "/studio/sketches/all",
     icon: Layers,
+    items: [
+      {
+        title: "All",
+        url: "/studio/sketches/all",
+      },
+      {
+        title: "Starred",
+        url: "/studio/sketches/starred",
+      },
+    ],
+  },
+  {
+    title: "Documentation",
+    url: "/studio/documentation/getting-started",
+    icon: BookOpen,
+    items: [
+      {
+        title: "Getting Started",
+        url: "/studio/documentation/getting-started",
+      },
+      {
+        title: "p5.js Reference",
+        url: "https://p5js.org/reference/",
+        external: true,
+      },
+    ],
   },
   {
     title: "Settings",
-    url: "/studio/settings",
-    icon: Settings,
+    url: "/studio/settings/general",
+    icon: Settings2,
+    items: [
+      {
+        title: "General",
+        url: "/studio/settings/general",
+      },
+      {
+        title: "API Keys",
+        url: "/studio/settings/api-keys",
+      },
+    ],
   },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { setTheme } = useTheme();
-
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <span className="text-2xl">🪴</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton tooltip="Toggle theme">
-                  <Sun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                  <Moon className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-                  <span>Theme</span>
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
-                  Light
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
-                  Dark
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
-                  System
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -1,6 +1,8 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import MagnetLines from "@/components/MagnetLines";
+import { StudioBreadcrumb } from "@/components/studio-breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -28,31 +30,45 @@ export default function StudioLayout({
   return (
     <>
       <SignedOut>
-        <div className="flex min-h-svh items-center justify-center">
-          <SignInButton mode="modal">
-            <Button variant="outline" type="button">
-              <GoogleIcon />
-              Login with Google
-            </Button>
-          </SignInButton>
+        <div className="grid min-h-svh lg:grid-cols-2">
+          <div className="bg-background hidden items-center justify-center overflow-hidden lg:flex">
+            <MagnetLines
+              rows={20}
+              columns={20}
+              containerSize="max(100vh, 50vw)"
+              lineColor="currentColor"
+              lineWidth="2px"
+              lineHeight="16px"
+              baseAngle={0}
+              className="text-foreground"
+            />
+          </div>
+          <div className="bg-background flex flex-col items-center justify-center gap-6">
+            <span className="text-4xl">🌱</span>
+            <SignInButton mode="modal">
+              <Button variant="outline" size="lg" type="button">
+                <GoogleIcon />
+                Continue with Google
+              </Button>
+            </SignInButton>
+          </div>
         </div>
       </SignedOut>
       <SignedIn>
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
-            <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator
-                orientation="vertical"
-                className="mr-2 data-[orientation=vertical]:h-4"
-              />
-              <span className="font-medium">Studio</span>
-              <div className="ml-auto">
-                <UserButton />
+            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+              <div className="flex items-center gap-2 px-4">
+                <SidebarTrigger className="-ml-1" />
+                <Separator
+                  orientation="vertical"
+                  className="mr-2 data-[orientation=vertical]:h-4"
+                />
+                <StudioBreadcrumb />
               </div>
             </header>
-            <main className="flex-1 p-4">{children}</main>
+            <main className="flex flex-1 flex-col p-4">{children}</main>
           </SidebarInset>
         </SidebarProvider>
       </SignedIn>
