@@ -37,12 +37,12 @@ const navMain: NavMainItem[] = [
   },
   {
     title: "Sketches",
-    url: "/studio/sketches",
+    url: "/studio/sketches/all",
     icon: Layers,
     items: [
       {
-        title: "All Sketches",
-        url: "/studio/sketches",
+        title: "All",
+        url: "/studio/sketches/all",
       },
       {
         title: "Starred",
@@ -52,12 +52,12 @@ const navMain: NavMainItem[] = [
   },
   {
     title: "Documentation",
-    url: "/docs",
+    url: "/studio/documentation/getting-started",
     icon: BookOpen,
     items: [
       {
         title: "Getting Started",
-        url: "/docs/getting-started",
+        url: "/studio/documentation/getting-started",
       },
       {
         title: "p5.js Reference",
@@ -68,12 +68,12 @@ const navMain: NavMainItem[] = [
   },
   {
     title: "Settings",
-    url: "/studio/settings",
+    url: "/studio/settings/general",
     icon: Settings2,
     items: [
       {
         title: "General",
-        url: "/studio/settings",
+        url: "/studio/settings/general",
       },
       {
         title: "API Keys",

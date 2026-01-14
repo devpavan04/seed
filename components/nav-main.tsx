@@ -8,6 +8,7 @@ import { type LucideIcon } from "lucide-react";
 import {
   SidebarGroup,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -37,42 +38,56 @@ export function NavMain({ items }: NavMainProps) {
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
-            <div className="text-sidebar-foreground flex h-8 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium">
-              {item.icon && <item.icon className="size-4 shrink-0" />}
-              <span className="truncate">{item.title}</span>
-            </div>
-            {item.items?.length ? (
-              <SidebarMenuSub>
-                {item.items.map((subItem) => {
-                  const isActive =
-                    !subItem.external && pathname === subItem.url;
+        {items.map((item) => {
+          // Check if any sub-item exactly matches the current path
+          const isParentActive =
+            item.items?.some(
+              (subItem) => !subItem.external && pathname === subItem.url
+            ) ?? pathname === item.url;
 
-                  return (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild isActive={isActive}>
-                        {subItem.external ? (
-                          <a
-                            href={subItem.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <span>{subItem.title}</span>
-                          </a>
-                        ) : (
-                          <Link href={subItem.url}>
-                            <span>{subItem.title}</span>
-                          </Link>
-                        )}
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  );
-                })}
-              </SidebarMenuSub>
-            ) : null}
-          </SidebarMenuItem>
-        ))}
+          return (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                asChild
+                isActive={isParentActive}
+                tooltip={item.title}
+              >
+                <Link href={item.url}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+              {item.items?.length ? (
+                <SidebarMenuSub>
+                  {item.items.map((subItem) => {
+                    const isActive =
+                      !subItem.external && pathname === subItem.url;
+
+                    return (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild isActive={isActive}>
+                          {subItem.external ? (
+                            <a
+                              href={subItem.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span>{subItem.title}</span>
+                            </a>
+                          ) : (
+                            <Link href={subItem.url}>
+                              <span>{subItem.title}</span>
+                            </Link>
+                          )}
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    );
+                  })}
+                </SidebarMenuSub>
+              ) : null}
+            </SidebarMenuItem>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

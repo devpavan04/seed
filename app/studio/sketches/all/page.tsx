@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Layers } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,19 +10,21 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 
-export default function StarredSketchesPage() {
+export default function AllSketchesPage(): React.ReactNode {
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <Star className="size-6" />
+          <Layers className="size-6" />
         </EmptyMedia>
-        <EmptyTitle>No starred sketches yet</EmptyTitle>
-        <EmptyDescription>Sketches you star will appear here.</EmptyDescription>
+        <EmptyTitle>No sketches yet</EmptyTitle>
+        <EmptyDescription>
+          Your saved sketches will appear here.
+        </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <Button asChild>
-          <a href="/studio/sketches/all">View All Sketches</a>
+          <a href="/studio">Create Sketch</a>
         </Button>
       </EmptyContent>
     </Empty>

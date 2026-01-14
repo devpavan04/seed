@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react";
+import { Settings } from "lucide-react";
 
 import {
   Empty,
@@ -8,17 +8,15 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 
-export default function GettingStartedPage() {
+export default function GeneralSettingsPage(): React.ReactNode {
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <BookOpen className="size-6" />
+          <Settings className="size-6" />
         </EmptyMedia>
         <EmptyTitle>Coming soon</EmptyTitle>
-        <EmptyDescription>
-          Documentation will be available here.
-        </EmptyDescription>
+        <EmptyDescription>Settings will be available here.</EmptyDescription>
       </EmptyHeader>
     </Empty>
   );

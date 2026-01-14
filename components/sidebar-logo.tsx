@@ -14,10 +14,10 @@ export function SidebarLogo() {
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" asChild>
           <Link href="/">
-            <div className="flex aspect-square size-8 items-center justify-center text-lg">
+            <div className="flex aspect-square size-8 items-center justify-center text-2xl">
               🌱
             </div>
-            <div className="grid flex-1 text-left text-lg leading-tight group-data-[collapsible=icon]:hidden">
+            <div className="grid flex-1 text-left text-xl leading-tight group-data-[collapsible=icon]:hidden">
               <span className="truncate font-medium">Seed</span>
             </div>
           </Link>

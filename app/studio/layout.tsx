@@ -1,14 +1,7 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { StudioBreadcrumb } from "@/components/studio-breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -56,17 +49,7 @@ export default function StudioLayout({
                   orientation="vertical"
                   className="mr-2 data-[orientation=vertical]:h-4"
                 />
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="/studio">Studio</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Generate</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
+                <StudioBreadcrumb />
               </div>
             </header>
             <main className="flex flex-1 flex-col p-4">{children}</main>
