@@ -104,7 +104,7 @@ export function UserCard({ user }: Props) {
 
 **Rules:**
 
-- Don't modify `components/ui/*` unless necessary
+- Don't modify existing `components/ui/*` files
 - Extend via wrapper components in `components/`
 - Use `asChild` + `Slot` for composition
 - Always use `cn()` when accepting className prop
@@ -114,6 +114,10 @@ export function UserCard({ user }: Props) {
 pnpm dlx shadcn@latest add button    # Add single component
 pnpm dlx shadcn@latest add -a        # Add all components
 ```
+
+**Custom UI Components:**
+
+- `ui/empty.tsx` - Empty state component for placeholder pages
 
 ---
 
@@ -210,22 +214,27 @@ export default clerkMiddleware(async (auth, request) => {
 ```typescript
 // Conditional rendering based on auth state
 <SignedIn>
-  <UserButton />
+  <CustomUserNav />
 </SignedIn>
 <SignedOut>
   <SignInButton mode="modal">
     <Button>Sign In</Button>
   </SignInButton>
 </SignedOut>
+
+// Custom user navigation using Clerk hooks (see nav-user.tsx)
+const { user } = useUser();
+const { openUserProfile, signOut } = useClerk();
 ```
 
 **Required:**
 
 - Wrap app with `ClerkProvider` → `ConvexProviderWithClerk` (order matters)
 - Use `createRouteMatcher` for route protection patterns
-- Use Clerk components (`SignedIn`, `SignedOut`, `UserButton`) for auth UI
+- Use Clerk hooks (`useUser`, `useClerk`) or components for auth UI
+- Use `SignedIn`/`SignedOut` for conditional rendering
 
 **Forbidden:**
 
-- Implementing custom auth flows (use Clerk's built-in components)
 - Storing auth tokens manually (Clerk handles this)
+- Bypassing Clerk for authentication logic
