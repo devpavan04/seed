@@ -5,14 +5,6 @@ import { useEffect } from "react";
 import { AlertCircle, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
 
 export default function StudioError({
   error,
@@ -26,25 +18,23 @@ export default function StudioError({
   }, [error]);
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center">
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <AlertCircle className="size-6" />
-          </EmptyMedia>
-          <EmptyTitle>Something went wrong</EmptyTitle>
-          <EmptyDescription>
-            An unexpected error occurred. Please try again or contact support if
-            the problem persists.
-          </EmptyDescription>
-        </EmptyHeader>
-        <EmptyContent>
-          <Button onClick={reset}>
-            <RefreshCw className="size-4" />
-            Try again
-          </Button>
-        </EmptyContent>
-      </Empty>
+    <div className="flex flex-1 flex-col items-center justify-center gap-6 p-6 text-center">
+      <div className="bg-muted flex size-10 items-center justify-center rounded-lg">
+        <AlertCircle className="size-6" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <h1 className="text-lg font-medium tracking-tight">
+          Something went wrong
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          An unexpected error occurred. Please try again or contact support if
+          the problem persists.
+        </p>
+      </div>
+      <Button onClick={reset}>
+        <RefreshCw className="size-4" />
+        Try again
+      </Button>
     </div>
   );
 }

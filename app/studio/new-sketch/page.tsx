@@ -1,4 +1,4 @@
-import { History } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import {
   Empty,
@@ -6,18 +6,18 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@/components/ui/empty";
+} from "@/components/empty";
 
-export default function HistoryPage() {
+export default function NewSketchPage() {
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <History className="size-6" />
+          <Plus className="size-6" />
         </EmptyMedia>
-        <EmptyTitle>No history yet</EmptyTitle>
+        <EmptyTitle>Create a New Sketch</EmptyTitle>
         <EmptyDescription>
-          Your generation history will appear here.
+          Start creating your next p5.js masterpiece.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react";
+import { Layers } from "lucide-react";
 
 import {
   Empty,
@@ -6,18 +6,18 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@/components/ui/empty";
+} from "@/components/empty";
 
-export default function GettingStartedPage(): React.ReactNode {
+export default function AllSketchesPage() {
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <BookOpen className="size-6" />
+          <Layers className="size-6" />
         </EmptyMedia>
-        <EmptyTitle>Coming soon</EmptyTitle>
+        <EmptyTitle>No Sketches Yet</EmptyTitle>
         <EmptyDescription>
-          Documentation will be available here.
+          Your sketches will appear here once you create them.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>
