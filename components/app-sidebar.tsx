@@ -51,30 +51,37 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={!item.external && pathname === item.url}
-                  >
-                    {item.external ? (
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    ) : (
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    )}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navItems.map((item) => {
+                const isActive = !item.external && pathname === item.url;
+                const isNewSketch = item.title === "New Sketch";
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      {item.external ? (
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.url}
+                          className={
+                            isNewSketch && !isActive ? "animate-shimmer" : ""
+                          }
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
