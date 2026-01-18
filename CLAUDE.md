@@ -10,6 +10,7 @@ Seed is a generative art studio that turns natural language into p5.js sketches 
 
 - **Frontend**: Next.js 16 with React 19, TypeScript
 - **Styling**: Tailwind CSS 4 with shadcn/ui components (Radix-based)
+- **State Management**: Zustand (lightweight stores)
 - **Backend**: Convex (serverless database and API)
 - **Auth**: Clerk (JWT-based authentication)
 - **Package Manager**: pnpm
@@ -52,6 +53,8 @@ Pre-commit hooks (Husky) run `lint:check` and `format:check`. Run `pnpm lint:fix
   schema.ts             # Database schema
   users.ts              # User mutations/queries
   http.ts               # Webhook handlers
+/stores                 # Zustand stores
+  sidebar-store.ts      # Sidebar UI state
 /lib
   utils.ts              # cn() utility for Tailwind class merging
 ```
@@ -75,3 +78,11 @@ Pre-commit hooks (Husky) run `lint:check` and `format:check`. Run `pnpm lint:fix
 - Public routes: `/`, `/studio` (login page)
 - Protected routes: `/studio/*` (redirects to sign-in if unauthenticated)
 - Use Clerk's `<SignedIn>` and `<SignedOut>` components for conditional rendering
+
+## State Management
+
+- Uses Zustand for client-side state management
+- Stores live in `/stores`
+- Each store is a separate file named `{feature}-store.ts` (e.g., `sidebar-store.ts`)
+- Use selector hooks for optimized re-renders (e.g., `useSidebarOpen()`)
+- Server state (database) is managed by Convex, not Zustand
