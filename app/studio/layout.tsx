@@ -59,7 +59,7 @@ export default function StudioLayout({
           <AppSidebar />
           <SidebarInset className="overflow-hidden overscroll-contain py-2 pr-2 pl-2">
             <div className="bg-card flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-lg border">
-              <header className="flex shrink-0 items-center gap-2 border-b px-4 pt-2 pb-2">
+              <header className="flex shrink-0 items-center gap-2 px-4 pt-2">
                 <SidebarTrigger className="-ml-1" />
                 <Separator
                   orientation="vertical"
