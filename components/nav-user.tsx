@@ -56,7 +56,7 @@ export function NavUser() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="hover:bg-transparent data-[state=open]:bg-transparent"
             >
               <Avatar className="h-8 w-8 rounded-full">
                 <AvatarImage

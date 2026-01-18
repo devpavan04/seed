@@ -12,14 +12,12 @@ export function SidebarLogo() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg" asChild>
+        <SidebarMenuButton
+          asChild
+          className="justify-center hover:bg-transparent"
+        >
           <Link href="/">
-            <div className="flex aspect-square size-8 items-center justify-center text-2xl">
-              🌱
-            </div>
-            <div className="grid flex-1 text-left text-xl leading-tight group-data-[collapsible=icon]:hidden">
-              <span className="truncate font-medium">Seed</span>
-            </div>
+            <div className="flex items-center justify-center text-lg">🌱</div>
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>

@@ -46,7 +46,7 @@ export default function StudioLayout({
           <div className="bg-background flex flex-col items-center justify-center gap-6">
             <span className="text-4xl">🌱</span>
             <SignInButton mode="modal">
-              <Button variant="outline" size="lg" type="button">
+              <Button variant="default" type="button">
                 <GoogleIcon />
                 Continue with Google
               </Button>
@@ -57,18 +57,18 @@ export default function StudioLayout({
       <SignedIn>
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset>
-            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-              <div className="flex items-center gap-2 px-4">
+          <SidebarInset className="overflow-hidden overscroll-contain py-2 pr-2 pl-2">
+            <div className="bg-card flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-lg border">
+              <header className="flex shrink-0 items-center gap-2 border-b px-4 pt-2 pb-2">
                 <SidebarTrigger className="-ml-1" />
                 <Separator
                   orientation="vertical"
                   className="mr-2 data-[orientation=vertical]:h-4"
                 />
                 <StudioBreadcrumb />
-              </div>
-            </header>
-            <main className="flex flex-1 flex-col p-4">{children}</main>
+              </header>
+              {children}
+            </div>
           </SidebarInset>
         </SidebarProvider>
       </SignedIn>
