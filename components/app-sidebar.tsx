@@ -4,10 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ExternalLink, Layers, Plus } from "lucide-react";
-
 import { NavUser } from "@/components/nav-user";
 import { SidebarLogo } from "@/components/sidebar-logo";
+import { LayersIcon, type LayersIconHandle } from "@/components/ui/layers";
+import { PlusIcon, type PlusIconHandle } from "@/components/ui/plus";
 import {
   Sidebar,
   SidebarContent,
@@ -20,24 +20,51 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+type IconHandle = PlusIconHandle | LayersIconHandle;
+
 const navItems = [
   {
     title: "New Sketch",
     url: "/studio/new-sketch",
-    icon: Plus,
+    icon: PlusIcon,
   },
   {
     title: "All Sketches",
     url: "/studio/all-sketches",
-    icon: Layers,
+    icon: LayersIcon,
   },
-  {
-    title: "p5.js Reference",
-    url: "https://p5js.org/reference/",
-    icon: ExternalLink,
-    external: true,
-  },
-];
+] as const;
+
+type NavItem = (typeof navItems)[number];
+
+function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
+  const iconRef = React.useRef<IconHandle>(null);
+  const isNewSketch = item.title === "New Sketch";
+
+  const handleMouseEnter = () => {
+    iconRef.current?.startAnimation();
+  };
+
+  const handleMouseLeave = () => {
+    iconRef.current?.stopAnimation();
+  };
+
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={isActive}>
+        <Link
+          href={item.url}
+          className={isNewSketch && !isActive ? "animate-shimmer" : ""}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <item.icon ref={iconRef} size={16} />
+          <span>{item.title}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -51,37 +78,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
-                const isActive = !item.external && pathname === item.url;
-                const isNewSketch = item.title === "New Sketch";
-
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      {item.external ? (
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
-                      ) : (
-                        <Link
-                          href={item.url}
-                          className={
-                            isNewSketch && !isActive ? "animate-shimmer" : ""
-                          }
-                        >
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      )}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {navItems.map((item) => (
+                <NavMenuItem
+                  key={item.title}
+                  item={item}
+                  isActive={pathname === item.url}
+                />
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
