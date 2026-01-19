@@ -1,13 +1,11 @@
 "use client";
 
+import type { Transition } from "motion/react";
+import { motion, useAnimation } from "motion/react";
+import type { HTMLAttributes } from "react";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 
-import { motion, useAnimation } from "motion/react";
-
 import { cn } from "@/lib/utils";
-
-import type { Transition } from "motion/react";
-import type { HTMLAttributes } from "react";
 
 export interface LayersIconHandle {
   startAnimation: () => void;

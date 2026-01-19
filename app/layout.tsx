@@ -1,11 +1,10 @@
+import "./globals.css";
+
+import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
 import { SeedProvider } from "@/components/seed-provider";
-
-import type { Metadata } from "next";
-
-import "./globals.css";
 
 // =============================================================================
 // Fonts

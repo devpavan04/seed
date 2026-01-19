@@ -1,11 +1,10 @@
 "use client";
 
-import { ThemeProvider, useTheme } from "next-themes";
-
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
+import { ThemeProvider, useTheme } from "next-themes";
 
 // =============================================================================
 // Types

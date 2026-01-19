@@ -1,10 +1,5 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-
 import {
   SignedIn,
   SignedOut,
@@ -21,6 +16,10 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import * as React from "react";
 
 import MagnetLines from "@/components/magnet-lines";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

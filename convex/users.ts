@@ -1,8 +1,7 @@
+import type { UserJSON } from "@clerk/backend";
 import { v } from "convex/values";
 
 import { internalMutation, mutation, query } from "./_generated/server";
-
-import type { UserJSON } from "@clerk/backend";
 
 // =============================================================================
 // Internal Mutations (Webhook)
