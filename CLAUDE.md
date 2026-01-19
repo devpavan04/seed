@@ -71,6 +71,7 @@ Pre-commit hooks (Husky) run `lint:check` and `format:check`. Run `pnpm lint:fix
 - shadcn components use CVA (class-variance-authority) for variants
 - Theme variables defined in `app/globals.css` (OKLCh color space)
 - Fonts: Mona Sans (UI), JetBrains Mono (code)
+- **NEVER modify files in `/components/ui/`** - these are shadcn-installed components. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Authentication
 

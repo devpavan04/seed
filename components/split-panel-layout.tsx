@@ -3,12 +3,17 @@
 import { Code, SlidersHorizontal, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  UnderlineTabs,
+  UnderlineTabsContent,
+  UnderlineTabsList,
+  UnderlineTabsTrigger,
+} from "@/components/underline-tabs";
 import { useIsMacOS } from "@/hooks/use-ismacos";
 import { cn } from "@/lib/utils";
 import {
@@ -60,25 +65,46 @@ function LeftContainer() {
   return (
     <div className="relative flex h-full flex-col">
       <div className="flex-1 overflow-hidden p-3">
-        <Tabs defaultValue="chat" className="flex h-full flex-col">
-          <TabsList className="w-full">
-            <TabsTrigger value="chat" className="flex-1">
-              <Sparkles size={16} />
-              Chat
-            </TabsTrigger>
-            <TabsTrigger value="controls" className="flex-1">
-              <SlidersHorizontal size={16} />
-              Controls
-            </TabsTrigger>
-            <TabsTrigger value="code" className="flex-1">
-              <Code size={16} />
-              Code
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="chat" className="mt-3 flex-1"></TabsContent>
-          <TabsContent value="controls" className="mt-3 flex-1"></TabsContent>
-          <TabsContent value="code" className="mt-3 flex-1"></TabsContent>
-        </Tabs>
+        <UnderlineTabs defaultValue="chat" className="flex h-full flex-col">
+          <UnderlineTabsList>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <UnderlineTabsTrigger value="chat">
+                  <Sparkles />
+                </UnderlineTabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Chat</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <UnderlineTabsTrigger value="controls">
+                  <SlidersHorizontal />
+                </UnderlineTabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Controls</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <UnderlineTabsTrigger value="code">
+                  <Code />
+                </UnderlineTabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Code</TooltipContent>
+            </Tooltip>
+          </UnderlineTabsList>
+          <UnderlineTabsContent
+            value="chat"
+            className="mt-4 flex-1"
+          ></UnderlineTabsContent>
+          <UnderlineTabsContent
+            value="controls"
+            className="mt-4 flex-1"
+          ></UnderlineTabsContent>
+          <UnderlineTabsContent
+            value="code"
+            className="mt-4 flex-1"
+          ></UnderlineTabsContent>
+        </UnderlineTabs>
       </div>
       {showCollapseTab && (
         <PanelTab
