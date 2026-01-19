@@ -41,7 +41,7 @@ function PanelTab({
         <button
           onClick={onClick}
           className={cn(
-            "bg-border/50 hover:bg-muted-foreground/30 absolute top-1/2 z-10 flex h-8 w-1 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition-colors",
+            "bg-primary/50 hover:bg-primary absolute top-1/2 z-10 flex h-8 w-1 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition-colors",
             position === "right" ? "right-0" : "left-0"
           )}
         >
@@ -91,7 +91,10 @@ function RightPanel() {
   const showCollapseTab = view === "split";
 
   return (
-    <div className="relative flex h-full flex-1 items-center justify-center p-3">
+    <div className="relative flex h-full flex-col">
+      <div className="flex-1 overflow-hidden p-3">
+        {/* Preview panel content */}
+      </div>
       {showCollapseTab && (
         <PanelTab
           position="left"
@@ -121,7 +124,8 @@ function SplitPanelLayout() {
   const isRightVisible = view !== "left-expanded";
 
   // Account for gap-2 (0.5rem = 8px) in width calculation
-  const splitWidth = "calc(50% - 4px)";
+  const leftPanelWidth = "calc(40% - 4px)";
+  const rightPanelWidth = "calc(60% - 4px)";
 
   return (
     <div className="relative flex h-full gap-2">
@@ -134,7 +138,7 @@ function SplitPanelLayout() {
             animate={{
               opacity: 1,
               x: 0,
-              width: view === "left-expanded" ? "100%" : splitWidth,
+              width: view === "left-expanded" ? "100%" : leftPanelWidth,
             }}
             exit={{ opacity: 0, x: -40 }}
             transition={{
@@ -156,7 +160,7 @@ function SplitPanelLayout() {
             animate={{
               opacity: 1,
               x: 0,
-              width: view === "right-expanded" ? "100%" : splitWidth,
+              width: view === "right-expanded" ? "100%" : rightPanelWidth,
             }}
             exit={{ opacity: 0, x: 40 }}
             transition={{
