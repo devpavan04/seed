@@ -4,6 +4,10 @@ import { useEffect } from "react";
 
 import { create } from "zustand";
 
+// =============================================================================
+// Types
+// =============================================================================
+
 type PanelView = "split" | "left-expanded" | "right-expanded";
 
 type SplitPanelState = {
@@ -17,6 +21,10 @@ type SplitPanelActions = {
 };
 
 export type SplitPanelStore = SplitPanelState & SplitPanelActions;
+
+// =============================================================================
+// Store
+// =============================================================================
 
 export const useSplitPanelStore = create<SplitPanelStore>((set, get) => ({
   view: "split",
@@ -50,7 +58,10 @@ export const useSplitPanelStore = create<SplitPanelStore>((set, get) => ({
   },
 }));
 
-// Keyboard shortcut hook
+// =============================================================================
+// Keyboard Shortcuts
+// =============================================================================
+
 export function useSplitPanelShortcuts() {
   const { toggleLeftPanel, toggleRightPanel } = useSplitPanelStore();
 
@@ -73,7 +84,10 @@ export function useSplitPanelShortcuts() {
   }, [toggleLeftPanel, toggleRightPanel]);
 }
 
-// Selector hooks for optimized re-renders
+// =============================================================================
+// Selector Hooks
+// =============================================================================
+
 export const useSplitPanelView = () =>
   useSplitPanelStore((state) => state.view);
 export const useLeftExpanded = () =>
@@ -83,7 +97,10 @@ export const useRightExpanded = () =>
 export const useIsSplitView = () =>
   useSplitPanelStore((state) => state.view === "split");
 
-// Convenience hook for getting all state and actions
+// =============================================================================
+// Convenience Hooks
+// =============================================================================
+
 export function useSplitPanel() {
   return useSplitPanelStore();
 }

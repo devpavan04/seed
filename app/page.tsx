@@ -1,4 +1,4 @@
-import MagnetLines from "@/components/MagnetLines";
+import MagnetLines from "@/components/magnet-lines";
 
 export default function Home() {
   return (

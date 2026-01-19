@@ -1,15 +1,67 @@
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+"use client";
 
-import { AppSidebar } from "@/components/app-sidebar";
-import MagnetLines from "@/components/MagnetLines";
-import { StudioBreadcrumb } from "@/components/studio-breadcrumb";
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  useClerk,
+  useUser,
+} from "@clerk/nextjs";
+import {
+  BadgeCheck,
+  Check,
+  ChevronsUpDown,
+  LogOut,
+  Monitor,
+  Moon,
+  Sun,
+} from "lucide-react";
+
+import MagnetLines from "@/components/magnet-lines";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LayersIcon, type LayersIconHandle } from "@/components/ui/layers";
+import { PlusIcon, type PlusIconHandle } from "@/components/ui/plus";
 import { Separator } from "@/components/ui/separator";
 import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
   SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
+
+// =============================================================================
+// Icons
+// =============================================================================
 
 function GoogleIcon() {
   return (
@@ -21,6 +73,261 @@ function GoogleIcon() {
     </svg>
   );
 }
+
+// =============================================================================
+// Breadcrumb
+// =============================================================================
+
+const ROUTE_CONFIG: Record<string, string> = {
+  "/studio/new-sketch": "New Sketch",
+  "/studio/all-sketches": "All Sketches",
+};
+
+function StudioBreadcrumb(): React.ReactNode {
+  const pathname = usePathname();
+  const pageTitle = ROUTE_CONFIG[pathname];
+
+  if (!pageTitle) {
+    return null;
+  }
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
+
+// =============================================================================
+// Sidebar Logo
+// =============================================================================
+
+function SidebarLogo() {
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          asChild
+          className="justify-center hover:bg-transparent"
+        >
+          <Link href="/">
+            <div className="flex items-center justify-center text-lg">🌱</div>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+
+// =============================================================================
+// Nav User
+// =============================================================================
+
+function NavUser() {
+  const { isMobile } = useSidebar();
+  const { user } = useUser();
+  const { openUserProfile, signOut } = useClerk();
+  const { setTheme, theme } = useTheme();
+
+  if (!user) {
+    return null;
+  }
+
+  const initials =
+    user.firstName && user.lastName
+      ? `${user.firstName[0]}${user.lastName[0]}`
+      : (user.emailAddresses[0]?.emailAddress?.[0]?.toUpperCase() ?? "U");
+
+  const handleSignOut = () => {
+    signOut({ redirectUrl: "/" });
+  };
+
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="hover:bg-transparent data-[state=open]:bg-transparent"
+            >
+              <Avatar className="h-8 w-8 rounded-full">
+                <AvatarImage
+                  src={user.imageUrl}
+                  alt={user.fullName ?? "User"}
+                />
+                <AvatarFallback className="rounded-full">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                <span className="truncate font-medium">
+                  {user.fullName ?? "User"}
+                </span>
+                <span className="text-muted-foreground truncate text-xs">
+                  Free
+                </span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            side={isMobile ? "bottom" : "right"}
+            align="end"
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="p-0 font-normal">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                <Avatar className="h-8 w-8 rounded-full">
+                  <AvatarImage
+                    src={user.imageUrl}
+                    alt={user.fullName ?? "User"}
+                  />
+                  <AvatarFallback className="rounded-full">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">
+                    {user.fullName ?? "User"}
+                  </span>
+                  <span className="text-muted-foreground truncate text-xs">
+                    Free
+                  </span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={() => openUserProfile()}>
+                <BadgeCheck />
+                Account
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun />
+                Light mode
+                {theme === "light" && (
+                  <Check className="text-primary ml-auto size-4" />
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon />
+                Dark mode
+                {theme === "dark" && (
+                  <Check className="text-primary ml-auto size-4" />
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <Monitor />
+                System
+                {theme === "system" && (
+                  <Check className="text-primary ml-auto size-4" />
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOut />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+
+// =============================================================================
+// App Sidebar
+// =============================================================================
+
+type IconHandle = PlusIconHandle | LayersIconHandle;
+
+const navItems = [
+  {
+    title: "New Sketch",
+    url: "/studio/new-sketch",
+    icon: PlusIcon,
+  },
+  {
+    title: "All Sketches",
+    url: "/studio/all-sketches",
+    icon: LayersIcon,
+  },
+] as const;
+
+type NavItem = (typeof navItems)[number];
+
+function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
+  const iconRef = React.useRef<IconHandle>(null);
+  const isNewSketch = item.title === "New Sketch";
+
+  const handleMouseEnter = () => {
+    iconRef.current?.startAnimation();
+  };
+
+  const handleMouseLeave = () => {
+    iconRef.current?.stopAnimation();
+  };
+
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={isActive}>
+        <Link
+          href={item.url}
+          className={isNewSketch && !isActive ? "animate-shimmer" : ""}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <item.icon ref={iconRef} size={16} />
+          <span>{item.title}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
+
+function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+
+  return (
+    <Sidebar variant="floating" {...props}>
+      <SidebarHeader>
+        <SidebarLogo />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <NavMenuItem
+                  key={item.title}
+                  item={item}
+                  isActive={pathname === item.url}
+                />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
+
+// =============================================================================
+// Layout
+// =============================================================================
 
 export default function StudioLayout({
   children,
@@ -58,7 +365,7 @@ export default function StudioLayout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset className="overflow-hidden overscroll-contain py-2 pr-2 pl-2">
-            <div className="bg-card flex min-h-0 flex-1 flex-col gap-3 overflow-hidden rounded-lg border">
+            <div className="bg-card flex min-h-0 flex-1 flex-col gap-2 overflow-hidden rounded-lg border">
               <header className="flex shrink-0 items-center gap-2 px-4 pt-2">
                 <SidebarTrigger className="-ml-1" />
                 <Separator

@@ -2,6 +2,10 @@
 
 import React, { CSSProperties, useEffect, useRef } from "react";
 
+// =============================================================================
+// Types
+// =============================================================================
+
 interface MagnetLinesProps {
   rows?: number;
   columns?: number;
@@ -13,6 +17,10 @@ interface MagnetLinesProps {
   className?: string;
   style?: CSSProperties;
 }
+
+// =============================================================================
+// Component
+// =============================================================================
 
 const MagnetLines: React.FC<MagnetLinesProps> = ({
   rows = 9,

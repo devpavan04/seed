@@ -7,13 +7,25 @@ import { dark } from "@clerk/themes";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 
+// =============================================================================
+// Types
+// =============================================================================
+
 interface SeedProviderProps {
   children: React.ReactNode;
 }
 
+// =============================================================================
+// Convex Client
+// =============================================================================
+
 const convex = new ConvexReactClient(
   process.env.NEXT_PUBLIC_CONVEX_URL as string
 );
+
+// =============================================================================
+// Providers
+// =============================================================================
 
 function ClerkWithConvex({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();

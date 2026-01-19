@@ -39,31 +39,65 @@ Pre-commit hooks (Husky) run `lint:check` and `format:check`. Run `pnpm lint:fix
 4. Relative imports
 5. Type imports
 
+## Code Organization
+
+This project follows a **colocation-first** approach: code lives closest to where it's used.
+
+### Principles
+
+1. **Single-file pages**: All components specific to a route should live in that route's file (page.tsx or layout.tsx), not abstracted into separate component files
+2. **Shared-only in /components/**: The `/components/` folder is reserved for components used in 2+ places. Single-use components belong in the file where they're used
+3. **Extract on actual reuse**: Only move code to `/components/` when you have a second consumer. Don't pre-emptively abstract
+4. **Organize within files**: Use section comments to organize all files with multiple components/functions:
+   ```tsx
+   // =============================================================================
+   // Section Name
+   // =============================================================================
+   ```
+
+### File Naming
+
+- All files use **kebab-case**: `magnet-lines.tsx`, `split-panel-store.ts`
+- Stores: `{feature}-store.ts`
+- Hooks: `use-{name}.ts`
+
+### Exceptions
+
+- **`/components/seed-provider.tsx`**: Must stay separate due to Next.js constraints. Root layout needs `metadata` export (Server Component), but providers need `"use client"` (Client Component). Next.js doesn't allow both in the same file.
+- **`/components/ui/`**: shadcn-installed components. Never modify directly.
+
 ## Architecture
 
 ```
-/app                    # Next.js App Router
-  /studio               # Protected routes (requires auth)
-    /new-sketch         # Create new sketch
-    /all-sketches       # Sketches gallery
+/app                      # Next.js App Router (colocate page-specific components in page.tsx/layout.tsx)
+  layout.tsx              # Root layout (metadata + providers)
+  /studio                 # Protected routes (auth required)
+    layout.tsx            # Studio shell (sidebar, nav - all inline)
+    /{feature}/page.tsx   # Feature pages (components inline)
 /components
-  /ui                   # shadcn components (Radix + Tailwind)
-  seed-provider.tsx     # Root providers (Theme, Clerk, Convex)
-/convex                 # Backend
-  schema.ts             # Database schema
-  users.ts              # User mutations/queries
-  http.ts               # Webhook handlers
-/stores                 # Zustand stores
-  sidebar-store.ts      # Sidebar UI state
+  /ui                     # shadcn components - DO NOT MODIFY
+  seed-provider.tsx       # Root providers (exception - see Code Organization)
+  {name}.tsx              # Only shared components (used 2+ places)
+/convex                   # Backend (colocate by domain)
+  schema.ts               # Database schema (source of truth)
+  {domain}.ts             # Domain mutations/queries (e.g., users.ts, sketches.ts)
+  http.ts                 # HTTP routes and webhooks
+/stores                   # Zustand stores
+  {feature}-store.ts      # One store per feature
+/hooks                    # Custom React hooks
+  use-{name}.ts           # One hook per file
 /lib
-  utils.ts              # cn() utility for Tailwind class merging
+  utils.ts                # Shared utilities
 ```
+
+**Note:** Don't update this section for every new file. It documents _patterns_, not inventory.
 
 ## Convex Backend
 
 - Schema defined in `convex/schema.ts`
 - Clerk webhooks sync users via `convex/http.ts`
 - Generated types in `convex/_generated/` (do not edit)
+- Colocate related mutations/queries in single files (e.g., all user operations in `users.ts`)
 
 ## Styling Conventions
 

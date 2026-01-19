@@ -7,6 +7,10 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
+// =============================================================================
+// Fonts
+// =============================================================================
+
 const monaSans = localFont({
   src: "./fonts/MonaSans.woff2",
   variable: "--font-mona-sans",
@@ -19,11 +23,19 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// =============================================================================
+// Metadata
+// =============================================================================
+
 export const metadata: Metadata = {
   title: "Seed",
   description:
-    "Generative art studio that turns natural language into p5.js sketches with parameter controls, version history, and multi-format exports 🌱",
+    "Generative art studio that turns natural language into p5.js sketches with parameter controls, version history, and multi-format exports",
 };
+
+// =============================================================================
+// Layout
+// =============================================================================
 
 export default function RootLayout({
   children,

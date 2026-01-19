@@ -1,10 +1,18 @@
 import * as React from "react";
 
+// =============================================================================
+// Types
+// =============================================================================
+
 interface NavigatorUAData {
   platform: string;
 }
 
 type NavigatorWithUAData = Navigator & { userAgentData?: NavigatorUAData };
+
+// =============================================================================
+// Hook
+// =============================================================================
 
 export function useIsMacOS() {
   const [isMacOS, setIsMacOS] = React.useState(false);

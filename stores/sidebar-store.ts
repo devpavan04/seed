@@ -2,8 +2,16 @@
 
 import { create } from "zustand";
 
+// =============================================================================
+// Constants
+// =============================================================================
+
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+
+// =============================================================================
+// Types
+// =============================================================================
 
 type SidebarState = {
   open: boolean;
@@ -19,6 +27,10 @@ type SidebarActions = {
 };
 
 export type SidebarStore = SidebarState & SidebarActions;
+
+// =============================================================================
+// Store
+// =============================================================================
 
 export const useSidebarStore = create<SidebarStore>((set, get) => ({
   open: true,
@@ -56,7 +68,10 @@ export const useSidebarStore = create<SidebarStore>((set, get) => ({
   },
 }));
 
-// Selector hooks for optimized re-renders
+// =============================================================================
+// Selector Hooks
+// =============================================================================
+
 export const useSidebarOpen = () => useSidebarStore((state) => state.open);
 export const useSidebarOpenMobile = () =>
   useSidebarStore((state) => state.openMobile);
@@ -65,7 +80,10 @@ export const useSidebarIsMobile = () =>
 export const useSidebarState = () =>
   useSidebarStore((state) => (state.open ? "expanded" : "collapsed"));
 
-// Legacy-compatible hook that returns all sidebar state and actions
+// =============================================================================
+// Convenience Hooks
+// =============================================================================
+
 export function useSidebar() {
   const store = useSidebarStore();
   return {
