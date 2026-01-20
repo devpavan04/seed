@@ -32,8 +32,8 @@ function ClerkWithConvex({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider
       afterSignOutUrl="/studio"
-      signInFallbackRedirectUrl="/studio/all-sketches"
-      signUpFallbackRedirectUrl="/studio/all-sketches"
+      signInFallbackRedirectUrl="/studio/new"
+      signUpFallbackRedirectUrl="/studio/new"
       appearance={{
         baseTheme: resolvedTheme === "dark" ? dark : undefined,
       }}

@@ -16,7 +16,7 @@ export default function StudioNotFound() {
         </p>
       </div>
       <Button asChild>
-        <Link href="/studio/all-sketches">Go to All Sketches</Link>
+        <Link href="/studio/sketches">Go to Sketches</Link>
       </Button>
     </div>
   );

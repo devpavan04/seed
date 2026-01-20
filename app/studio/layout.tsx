@@ -78,8 +78,8 @@ function GoogleIcon() {
 // =============================================================================
 
 const ROUTE_CONFIG: Record<string, string> = {
-  "/studio/new-sketch": "New Sketch",
-  "/studio/all-sketches": "All Sketches",
+  "/studio/new": "New Sketch",
+  "/studio/sketches": "Sketches",
 };
 
 function StudioBreadcrumb(): React.ReactNode {
@@ -253,12 +253,12 @@ type IconHandle = PlusIconHandle | LayersIconHandle;
 const navItems = [
   {
     title: "New Sketch",
-    url: "/studio/new-sketch",
+    url: "/studio/new",
     icon: PlusIcon,
   },
   {
-    title: "All Sketches",
-    url: "/studio/all-sketches",
+    title: "Sketches",
+    url: "/studio/sketches",
     icon: LayersIcon,
   },
 ] as const;
@@ -267,7 +267,6 @@ type NavItem = (typeof navItems)[number];
 
 function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
   const iconRef = React.useRef<IconHandle>(null);
-  const isNewSketch = item.title === "New Sketch";
 
   const handleMouseEnter = () => {
     iconRef.current?.startAnimation();
@@ -282,7 +281,6 @@ function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
       <SidebarMenuButton asChild isActive={isActive}>
         <Link
           href={item.url}
-          className={isNewSketch && !isActive ? "animate-shimmer" : ""}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

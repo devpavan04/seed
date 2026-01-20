@@ -5,7 +5,7 @@ export default async function StudioPage() {
   const { userId } = await auth();
 
   if (userId) {
-    redirect("/studio/all-sketches");
+    redirect("/studio/new");
   }
 
   // Logged out users see the sign-in page via the layout
