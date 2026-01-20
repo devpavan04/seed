@@ -10,6 +10,7 @@ Seed is a generative art studio that turns natural language into p5.js sketches 
 
 - **Frontend**: Next.js 16 with React 19, TypeScript
 - **Styling**: Tailwind CSS 4 with shadcn/ui components (Radix-based)
+- **AI/Chat**: Vercel AI SDK with ai-elements components
 - **State Management**: Zustand (lightweight stores)
 - **Backend**: Convex (serverless database and API)
 - **Auth**: Clerk (JWT-based authentication)
@@ -64,7 +65,8 @@ This project follows a **colocation-first** approach: code lives closest to wher
 ### Exceptions
 
 - **`/components/seed-provider.tsx`**: Must stay separate due to Next.js constraints. Root layout needs `metadata` export (Server Component), but providers need `"use client"` (Client Component). Next.js doesn't allow both in the same file.
-- **`/components/ui/`**: shadcn-installed components. Never modify directly.
+- **`/components/ui/`**: shadcn-installed primitives. Never modify directly.
+- **`/components/ai-elements/`**: AI SDK registry components built on top of `/components/ui/`. Never modify directly. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Architecture
 
@@ -75,7 +77,8 @@ This project follows a **colocation-first** approach: code lives closest to wher
     layout.tsx            # Studio shell (sidebar, nav - all inline)
     /{feature}/page.tsx   # Feature pages (components inline)
 /components
-  /ui                     # shadcn components - DO NOT MODIFY
+  /ai-elements            # AI SDK components (chat, messages) - DO NOT MODIFY
+  /ui                     # shadcn primitives - DO NOT MODIFY
   seed-provider.tsx       # Root providers (exception - see Code Organization)
   {name}.tsx              # Only shared components (used 2+ places)
 /convex                   # Backend (colocate by domain)
@@ -105,7 +108,7 @@ This project follows a **colocation-first** approach: code lives closest to wher
 - shadcn components use CVA (class-variance-authority) for variants
 - Theme variables defined in `app/globals.css` (OKLCh color space)
 - Fonts: Inter (UI), JetBrains Mono (code)
-- **NEVER modify files in `/components/ui/`** - these are shadcn-installed components. To customize, create wrapper components or override styles via Tailwind classes.
+- **NEVER modify files in `/components/ui/` or `/components/ai-elements/`** - these are registry-installed components. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Authentication
 
