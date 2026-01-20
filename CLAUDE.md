@@ -104,7 +104,7 @@ This project follows a **colocation-first** approach: code lives closest to wher
 - Use `cn()` from `@/lib/utils` for conditional Tailwind classes
 - shadcn components use CVA (class-variance-authority) for variants
 - Theme variables defined in `app/globals.css` (OKLCh color space)
-- Fonts: Mona Sans (UI), JetBrains Mono (code)
+- Fonts: Inter (UI), JetBrains Mono (code)
 - **NEVER modify files in `/components/ui/`** - these are shadcn-installed components. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Authentication

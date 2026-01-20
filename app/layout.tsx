@@ -1,8 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import { SeedProvider } from "@/components/seed-provider";
 
@@ -10,9 +9,9 @@ import { SeedProvider } from "@/components/seed-provider";
 // Fonts
 // =============================================================================
 
-const monaSans = localFont({
-  src: "./fonts/MonaSans.woff2",
-  variable: "--font-mona-sans",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -45,7 +44,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${monaSans.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased">
         <SeedProvider>{children}</SeedProvider>

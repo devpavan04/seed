@@ -156,12 +156,12 @@
     @apply border-border outline-ring/50;
   }
   html {
-    font-family: var(--font-mona-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
   body {
     @apply bg-background text-foreground;
   }
-  /* Ensure all text elements inherit Mona Sans unless explicitly overridden */
+  /* Ensure all text elements inherit Inter unless explicitly overridden */
   button,
   input,
   select,
