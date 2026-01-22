@@ -57,6 +57,11 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // =============================================================================
 // Icons
@@ -112,6 +117,7 @@ function SidebarLogo() {
         <SidebarMenuButton
           asChild
           className="justify-center hover:bg-transparent"
+          tooltip="Seed"
         >
           <Link href="/">
             <div className="flex items-center justify-center text-lg">🌱</div>
@@ -278,7 +284,7 @@ function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={isActive}>
+      <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
         <Link
           href={item.url}
           onMouseEnter={handleMouseEnter}
@@ -296,7 +302,7 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (
-    <Sidebar variant="floating" {...props}>
+    <Sidebar collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
         <SidebarLogo />
       </SidebarHeader>
@@ -361,10 +367,17 @@ export default function StudioLayout({
       <SignedIn>
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset className="overflow-hidden overscroll-contain py-2 pr-2 pl-2">
+          <SidebarInset className="h-svh max-h-svh overflow-hidden overscroll-contain py-2 pr-2 pl-2">
             <div className="bg-card flex min-h-0 flex-1 flex-col gap-2 overflow-hidden rounded-lg border">
               <header className="flex shrink-0 items-center gap-2 px-4 pt-2">
-                <SidebarTrigger className="-ml-1" />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SidebarTrigger className="-ml-1" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    Toggle Sidebar <kbd className="ml-1">⌘B</kbd>
+                  </TooltipContent>
+                </Tooltip>
                 <Separator
                   orientation="vertical"
                   className="mr-2 data-[orientation=vertical]:h-4"
