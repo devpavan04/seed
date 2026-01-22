@@ -1,26 +1,39 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import { SeedProvider } from "@/components/seed-provider";
 
-import type { Metadata } from "next";
+// =============================================================================
+// Fonts
+// =============================================================================
 
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
+
+// =============================================================================
+// Metadata
+// =============================================================================
 
 export const metadata: Metadata = {
   title: "Seed",
   description:
-    "Generative art studio that turns natural language into p5.js sketches with parameter controls, version history, and multi-format exports 🌱",
+    "Generative art studio that turns natural language into p5.js sketches with parameter controls, version history, and multi-format exports",
 };
+
+// =============================================================================
+// Layout
+// =============================================================================
 
 export default function RootLayout({
   children,
@@ -28,10 +41,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="antialiased">
         <SeedProvider>{children}</SeedProvider>
       </body>
     </html>

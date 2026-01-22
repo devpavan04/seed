@@ -1,10 +1,13 @@
+import type { WebhookEvent } from "@clerk/backend";
 import { httpRouter } from "convex/server";
 import { Webhook } from "svix";
 
 import { internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
 
-import type { WebhookEvent } from "@clerk/backend";
+// =============================================================================
+// Router
+// =============================================================================
 
 const http = httpRouter();
 
@@ -42,6 +45,10 @@ http.route({
     return new Response(null, { status: 200 });
   }),
 });
+
+// =============================================================================
+// Helpers
+// =============================================================================
 
 async function validateRequest(req: Request): Promise<WebhookEvent | null> {
   const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { PageContainer } from "@/components/page-container";
 
-export default function SketchesPage(): never {
-  redirect("/studio/sketches/all");
+export default function AllSketchesPage() {
+  return <PageContainer>{/* TODO: Add all sketches */}</PageContainer>;
 }

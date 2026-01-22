@@ -1,19 +1,30 @@
 "use client";
 
-import { ThemeProvider, useTheme } from "next-themes";
-
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
+import { ThemeProvider, useTheme } from "next-themes";
+
+// =============================================================================
+// Types
+// =============================================================================
 
 interface SeedProviderProps {
   children: React.ReactNode;
 }
 
+// =============================================================================
+// Convex Client
+// =============================================================================
+
 const convex = new ConvexReactClient(
   process.env.NEXT_PUBLIC_CONVEX_URL as string
 );
+
+// =============================================================================
+// Providers
+// =============================================================================
 
 function ClerkWithConvex({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
@@ -21,8 +32,8 @@ function ClerkWithConvex({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider
       afterSignOutUrl="/studio"
-      signInFallbackRedirectUrl="/studio"
-      signUpFallbackRedirectUrl="/studio"
+      signInFallbackRedirectUrl="/studio/new"
+      signUpFallbackRedirectUrl="/studio/new"
       appearance={{
         baseTheme: resolvedTheme === "dark" ? dark : undefined,
       }}

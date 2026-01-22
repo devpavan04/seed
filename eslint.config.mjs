@@ -15,23 +15,7 @@ const eslintConfig = defineConfig([
       "simple-import-sort": simpleImportSort,
     },
     rules: {
-      "simple-import-sort/imports": [
-        "error",
-        {
-          groups: [
-            // React and Next.js
-            ["^react", "^next"],
-            // External packages
-            ["^@?\\w"],
-            // Internal aliases (@/)
-            ["^@/"],
-            // Relative imports
-            ["^\\."],
-            // Type imports
-            ["^.*\\u0000$"],
-          ],
-        },
-      ],
+      "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
     },
   },

@@ -1,10 +1,12 @@
+import type { UserJSON } from "@clerk/backend";
 import { v } from "convex/values";
 
 import { internalMutation, mutation, query } from "./_generated/server";
 
-import type { UserJSON } from "@clerk/backend";
+// =============================================================================
+// Internal Mutations (Webhook)
+// =============================================================================
 
-// Internal mutation called from webhook to create/update user
 export const upsertFromClerk = internalMutation({
   args: { data: v.any() },
   handler: async (ctx, { data }) => {
@@ -31,7 +33,6 @@ export const upsertFromClerk = internalMutation({
   },
 });
 
-// Internal mutation called from webhook to delete user
 export const deleteFromClerk = internalMutation({
   args: { clerkUserId: v.string() },
   handler: async (ctx, { clerkUserId }) => {
@@ -46,7 +47,10 @@ export const deleteFromClerk = internalMutation({
   },
 });
 
-// Query to get current user
+// =============================================================================
+// Queries
+// =============================================================================
+
 export const current = query({
   args: {},
   handler: async (ctx) => {
@@ -64,7 +68,10 @@ export const current = query({
   },
 });
 
-// Public mutation to store user from client (called on sign-in)
+// =============================================================================
+// Mutations
+// =============================================================================
+
 export const store = mutation({
   args: {},
   handler: async (ctx) => {

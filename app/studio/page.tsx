@@ -1,12 +1,13 @@
-export default function StudioPage() {
-  return (
-    <div className="flex flex-1 flex-col gap-4">
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="bg-muted/50 aspect-video rounded-xl" />
-        <div className="bg-muted/50 aspect-video rounded-xl" />
-        <div className="bg-muted/50 aspect-video rounded-xl" />
-      </div>
-      <div className="bg-muted/50 min-h-[50vh] flex-1 rounded-xl" />
-    </div>
-  );
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+
+export default async function StudioPage() {
+  const { userId } = await auth();
+
+  if (userId) {
+    redirect("/studio/new");
+  }
+
+  // Logged out users see the sign-in page via the layout
+  return null;
 }
