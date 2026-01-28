@@ -23,12 +23,6 @@ import * as React from "react";
 
 import MagnetLines from "@/components/magnet-lines";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -41,7 +35,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LayersIcon } from "@/components/ui/layers";
 import { PlusIcon } from "@/components/ui/plus";
-import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -54,14 +47,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 // =============================================================================
 // Types
@@ -87,11 +74,6 @@ type AppSidebarMenuItemProps = {
 // Constants
 // =============================================================================
 
-const PAGE_TITLE_BY_PATHNAME: Record<string, string> = {
-  "/studio/new": "New Sketch",
-  "/studio/sketches": "Sketches",
-};
-
 const SIDEBAR_MENU_ITEMS: SidebarMenuItemType[] = [
   {
     title: "New Sketch",
@@ -108,25 +90,6 @@ const SIDEBAR_MENU_ITEMS: SidebarMenuItemType[] = [
 // =============================================================================
 // Components
 // =============================================================================
-
-function AppBreadcrumb() {
-  const pathname = usePathname();
-  const pageTitle = PAGE_TITLE_BY_PATHNAME[pathname];
-
-  if (!pageTitle) {
-    return null;
-  }
-
-  return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbPage>{pageTitle}</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
-  );
-}
 
 function AppSidebarMenuItem({ item, isActive }: AppSidebarMenuItemProps) {
   const iconRef = React.useRef<AnimatedIconHandle>(null);
@@ -162,7 +125,6 @@ function AppSidebarHeader() {
         <SidebarMenuButton
           asChild
           className="justify-center hover:bg-transparent"
-          tooltip="Seed"
         >
           <Link href="/">
             <div className="flex items-center justify-center text-lg">🌱</div>
@@ -362,22 +324,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </SidebarFooter>
           </Sidebar>
           <SidebarInset className="h-svh max-h-svh overflow-hidden overscroll-contain py-2 pr-2">
-            <div className="bg-card flex min-h-0 flex-1 flex-col gap-2 overflow-hidden rounded-lg border">
-              <header className="flex shrink-0 items-center gap-2 px-4 pt-2">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <SidebarTrigger className="-ml-1" />
-                  </TooltipTrigger>
-                  <TooltipContent side="right">
-                    Toggle Sidebar <kbd className="ml-1">⌘B</kbd>
-                  </TooltipContent>
-                </Tooltip>
-                <Separator
-                  orientation="vertical"
-                  className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <AppBreadcrumb />
-              </header>
+            <div className="bg-card flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border">
               {children}
             </div>
           </SidebarInset>

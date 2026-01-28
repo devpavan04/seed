@@ -1,3 +1,3 @@
 # Seed
 
-AI-powered motion graphics you describe and control. Live controls, multi-format export 🌱
+Seed turns natural language into p5.js sketches you can shape with live controls and export 🌱

@@ -17,7 +17,7 @@ export default function Component({ children, className }: Props) {
   return (
     <div
       className={cn(
-        "min-h-0 flex-1 overflow-y-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "min-h-0 flex-1 overflow-y-auto p-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         className
       )}
     >
