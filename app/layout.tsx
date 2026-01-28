@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 
-import { SeedProvider } from "@/components/seed-provider";
+import Provider from "@/components/provider";
 
 // =============================================================================
 // Fonts
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 // Layout
 // =============================================================================
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -47,7 +47,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased">
-        <SeedProvider>{children}</SeedProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

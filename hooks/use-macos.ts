@@ -14,7 +14,7 @@ type NavigatorWithUAData = Navigator & { userAgentData?: NavigatorUAData };
 // Hook
 // =============================================================================
 
-export function useIsMacOS() {
+export default function useMacOS() {
   const [isMacOS, setIsMacOS] = React.useState(false);
 
   React.useEffect(() => {

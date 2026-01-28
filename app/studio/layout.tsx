@@ -39,8 +39,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LayersIcon, type LayersIconHandle } from "@/components/ui/layers";
-import { PlusIcon, type PlusIconHandle } from "@/components/ui/plus";
+import { LayersIcon } from "@/components/ui/layers";
+import { PlusIcon } from "@/components/ui/plus";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -64,32 +64,54 @@ import {
 } from "@/components/ui/tooltip";
 
 // =============================================================================
-// Icons
+// Types
 // =============================================================================
 
-function GoogleIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path
-        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+type AnimatedIconHandle = {
+  startAnimation: () => void;
+  stopAnimation: () => void;
+};
+
+type SidebarMenuItemType = {
+  title: string;
+  url: string;
+  icon: React.ElementType;
+};
+
+type AppSidebarMenuItemProps = {
+  item: SidebarMenuItemType;
+  isActive: boolean;
+};
 
 // =============================================================================
-// Breadcrumb
+// Constants
 // =============================================================================
 
-const ROUTE_CONFIG: Record<string, string> = {
+const PAGE_TITLE_BY_PATHNAME: Record<string, string> = {
   "/studio/new": "New Sketch",
   "/studio/sketches": "Sketches",
 };
 
-function StudioBreadcrumb(): React.ReactNode {
+const SIDEBAR_MENU_ITEMS: SidebarMenuItemType[] = [
+  {
+    title: "New Sketch",
+    url: "/studio/new",
+    icon: PlusIcon,
+  },
+  {
+    title: "Sketches",
+    url: "/studio/sketches",
+    icon: LayersIcon,
+  },
+];
+
+// =============================================================================
+// Components
+// =============================================================================
+
+function AppBreadcrumb() {
   const pathname = usePathname();
-  const pageTitle = ROUTE_CONFIG[pathname];
+  const pageTitle = PAGE_TITLE_BY_PATHNAME[pathname];
 
   if (!pageTitle) {
     return null;
@@ -106,11 +128,34 @@ function StudioBreadcrumb(): React.ReactNode {
   );
 }
 
-// =============================================================================
-// Sidebar Logo
-// =============================================================================
+function AppSidebarMenuItem({ item, isActive }: AppSidebarMenuItemProps) {
+  const iconRef = React.useRef<AnimatedIconHandle>(null);
 
-function SidebarLogo() {
+  const handleMouseEnter = () => {
+    iconRef.current?.startAnimation();
+  };
+
+  const handleMouseLeave = () => {
+    iconRef.current?.stopAnimation();
+  };
+
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+        <Link
+          href={item.url}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <item.icon ref={iconRef} size={16} />
+          <span>{item.title}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
+
+function AppSidebarHeader() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -128,11 +173,27 @@ function SidebarLogo() {
   );
 }
 
-// =============================================================================
-// Nav User
-// =============================================================================
+function AppSidebarContent() {
+  const pathname = usePathname();
 
-function NavUser() {
+  return (
+    <SidebarGroup>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {SIDEBAR_MENU_ITEMS.map((item) => (
+            <AppSidebarMenuItem
+              key={item.title}
+              item={item}
+              isActive={pathname === item.url}
+            />
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
+
+function AppSidebarFooter() {
   const { isMobile } = useSidebar();
   const { user } = useUser();
   const { openUserProfile, signOut } = useClerk();
@@ -251,92 +312,10 @@ function NavUser() {
 }
 
 // =============================================================================
-// App Sidebar
-// =============================================================================
-
-type IconHandle = PlusIconHandle | LayersIconHandle;
-
-const navItems = [
-  {
-    title: "New Sketch",
-    url: "/studio/new",
-    icon: PlusIcon,
-  },
-  {
-    title: "Sketches",
-    url: "/studio/sketches",
-    icon: LayersIcon,
-  },
-] as const;
-
-type NavItem = (typeof navItems)[number];
-
-function NavMenuItem({ item, isActive }: { item: NavItem; isActive: boolean }) {
-  const iconRef = React.useRef<IconHandle>(null);
-
-  const handleMouseEnter = () => {
-    iconRef.current?.startAnimation();
-  };
-
-  const handleMouseLeave = () => {
-    iconRef.current?.stopAnimation();
-  };
-
-  return (
-    <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
-        <Link
-          href={item.url}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <item.icon ref={iconRef} size={16} />
-          <span>{item.title}</span>
-        </Link>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
-  );
-}
-
-function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname();
-
-  return (
-    <Sidebar collapsible="icon" variant="floating" {...props}>
-      <SidebarHeader>
-        <SidebarLogo />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <NavMenuItem
-                  key={item.title}
-                  item={item}
-                  isActive={pathname === item.url}
-                />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser />
-      </SidebarFooter>
-    </Sidebar>
-  );
-}
-
-// =============================================================================
 // Layout
 // =============================================================================
 
-export default function StudioLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SignedOut>
@@ -357,7 +336,12 @@ export default function StudioLayout({
             <span className="text-4xl">🌱</span>
             <SignInButton mode="modal">
               <Button variant="default" type="button">
-                <GoogleIcon />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+                    fill="currentColor"
+                  />
+                </svg>
                 Continue with Google
               </Button>
             </SignInButton>
@@ -365,9 +349,19 @@ export default function StudioLayout({
         </div>
       </SignedOut>
       <SignedIn>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset className="h-svh max-h-svh overflow-hidden overscroll-contain py-2 pr-2 pl-2">
+        <SidebarProvider defaultOpen={false}>
+          <Sidebar collapsible="icon" variant="floating">
+            <SidebarHeader>
+              <AppSidebarHeader />
+            </SidebarHeader>
+            <SidebarContent className="overscroll-contain">
+              <AppSidebarContent />
+            </SidebarContent>
+            <SidebarFooter>
+              <AppSidebarFooter />
+            </SidebarFooter>
+          </Sidebar>
+          <SidebarInset className="h-svh max-h-svh overflow-hidden overscroll-contain py-2 pr-2">
             <div className="bg-card flex min-h-0 flex-1 flex-col gap-2 overflow-hidden rounded-lg border">
               <header className="flex shrink-0 items-center gap-2 px-4 pt-2">
                 <Tooltip>
@@ -382,7 +376,7 @@ export default function StudioLayout({
                   orientation="vertical"
                   className="mr-2 data-[orientation=vertical]:h-4"
                 />
-                <StudioBreadcrumb />
+                <AppBreadcrumb />
               </header>
               {children}
             </div>

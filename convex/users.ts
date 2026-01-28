@@ -4,7 +4,7 @@ import { v } from "convex/values";
 import { internalMutation, mutation, query } from "./_generated/server";
 
 // =============================================================================
-// Internal Mutations (Webhook)
+// Internal Mutations
 // =============================================================================
 
 export const upsertFromClerk = internalMutation({

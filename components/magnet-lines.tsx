@@ -1,12 +1,13 @@
 "use client";
 
-import React, { CSSProperties, useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 
 // =============================================================================
 // Types
 // =============================================================================
 
-interface MagnetLinesProps {
+interface Props {
   rows?: number;
   columns?: number;
   containerSize?: string;
@@ -22,7 +23,7 @@ interface MagnetLinesProps {
 // Component
 // =============================================================================
 
-const MagnetLines: React.FC<MagnetLinesProps> = ({
+export default function Component({
   rows = 9,
   columns = 9,
   containerSize = "80vmin",
@@ -32,7 +33,7 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
   baseAngle = -10,
   className = "",
   style = {},
-}) => {
+}: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -106,6 +107,4 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
       {spans}
     </div>
   );
-};
-
-export default MagnetLines;
+}

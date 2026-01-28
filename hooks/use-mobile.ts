@@ -1,8 +1,16 @@
 import * as React from "react";
 
+// =============================================================================
+// Constants
+// =============================================================================
+
 const MOBILE_BREAKPOINT = 768;
 
-export function useIsMobile() {
+// =============================================================================
+// Hook
+// =============================================================================
+
+export default function useMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
     undefined
   );
@@ -19,3 +27,6 @@ export function useIsMobile() {
 
   return !!isMobile;
 }
+
+// Re-export for shadcn sidebar.tsx compatibility
+export { default as useIsMobile } from "./use-mobile";

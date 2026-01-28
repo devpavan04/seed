@@ -10,7 +10,6 @@ Seed is a generative art studio that turns natural language into p5.js sketches 
 
 - **Frontend**: Next.js 16 with React 19, TypeScript
 - **Styling**: Tailwind CSS 4 with shadcn/ui components (Radix-based)
-- **AI/Chat**: Vercel AI SDK with ai-elements components
 - **State Management**: Zustand (lightweight stores)
 - **Backend**: Convex (serverless database and API)
 - **Auth**: Clerk (JWT-based authentication)
@@ -58,15 +57,34 @@ This project follows a **colocation-first** approach: code lives closest to wher
 
 ### File Naming
 
-- All files use **kebab-case**: `magnet-lines.tsx`, `split-panel-store.ts`
+- All files use **kebab-case**: `magnet-lines.tsx`, `canvas-store.ts`
 - Stores: `{feature}-store.ts`
 - Hooks: `use-{name}.ts`
 
+### Naming Conventions
+
+**Default exports use generic names** — the file path provides semantic meaning:
+
+- Components: `export default function Component()`
+- Pages: `export default function Page()`
+- Layouts: `export default function Layout()`
+- Hooks: `export default function useHookName()` (keeps name for React rules of hooks)
+- Props: `Props` (type or interface)
+
+**Named exports use descriptive names** — they need to self-identify:
+
+- Components: `AppSidebarHeader`, `CustomComponent`
+- Props: `AppSidebarHeaderProps`, `CustomComponentProps`
+
+**Other conventions:**
+
+- Constants: `SCREAMING_SNAKE_CASE` (e.g., `MOBILE_BREAKPOINT`, `SIDEBAR_COOKIE_NAME`)
+- Types: PascalCase (e.g., `SidebarState`)
+
 ### Exceptions
 
-- **`/components/seed-provider.tsx`**: Must stay separate due to Next.js constraints. Root layout needs `metadata` export (Server Component), but providers need `"use client"` (Client Component). Next.js doesn't allow both in the same file.
+- **`/components/provider.tsx`**: Must stay separate due to Next.js constraints. Root layout needs `metadata` export (Server Component), but providers need `"use client"` (Client Component). Next.js doesn't allow both in the same file.
 - **`/components/ui/`**: shadcn-installed primitives. Never modify directly.
-- **`/components/ai-elements/`**: AI SDK registry components built on top of `/components/ui/`. Never modify directly. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Architecture
 
@@ -77,9 +95,8 @@ This project follows a **colocation-first** approach: code lives closest to wher
     layout.tsx            # Studio shell (sidebar, nav - all inline)
     /{feature}/page.tsx   # Feature pages (components inline)
 /components
-  /ai-elements            # AI SDK components (chat, messages) - DO NOT MODIFY
   /ui                     # shadcn primitives - DO NOT MODIFY
-  seed-provider.tsx       # Root providers (exception - see Code Organization)
+  provider.tsx            # Root providers (exception - see Code Organization)
   {name}.tsx              # Only shared components (used 2+ places)
 /convex                   # Backend (colocate by domain)
   schema.ts               # Database schema (source of truth)
@@ -108,11 +125,11 @@ This project follows a **colocation-first** approach: code lives closest to wher
 - shadcn components use CVA (class-variance-authority) for variants
 - Theme variables defined in `app/globals.css` (OKLCh color space)
 - Fonts: Inter (UI), JetBrains Mono (code)
-- **NEVER modify files in `/components/ui/` or `/components/ai-elements/`** - these are registry-installed components. To customize, create wrapper components or override styles via Tailwind classes.
+- **NEVER modify files in `/components/ui/`** - these are shadcn-installed primitives. To customize, create wrapper components or override styles via Tailwind classes.
 
 ## Authentication
 
-- Middleware in `middleware.ts` protects routes
+- Middleware in `proxy.ts` protects routes
 - Public routes: `/`, `/studio` (login page)
 - Protected routes: `/studio/*` (redirects to sign-in if unauthenticated)
 - Use Clerk's `<SignedIn>` and `<SignedOut>` components for conditional rendering
@@ -120,7 +137,7 @@ This project follows a **colocation-first** approach: code lives closest to wher
 ## State Management
 
 - Uses Zustand for client-side state management
-- Stores live in `/stores`
-- Each store is a separate file named `{feature}-store.ts` (e.g., `sidebar-store.ts`)
-- Use selector hooks for optimized re-renders (e.g., `useSidebarOpen()`)
+- Stores live in `/stores` (currently empty - add stores as needed)
+- Each store is a separate file named `{feature}-store.ts`
+- Stores use default exports: `export default create<State>(...)`
 - Server state (database) is managed by Convex, not Zustand
