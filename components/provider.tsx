@@ -7,15 +7,7 @@ import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ThemeProvider, useTheme } from "next-themes";
 
 // =============================================================================
-// Types
-// =============================================================================
-
-interface SeedProviderProps {
-  children: React.ReactNode;
-}
-
-// =============================================================================
-// Convex Client
+// Instantiation
 // =============================================================================
 
 const convex = new ConvexReactClient(
@@ -23,10 +15,18 @@ const convex = new ConvexReactClient(
 );
 
 // =============================================================================
-// Providers
+// Types
 // =============================================================================
 
-function ClerkWithConvex({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+// =============================================================================
+// Components
+// =============================================================================
+
+function ClerkProviderWithTheme({ children }: Props) {
   const { resolvedTheme } = useTheme();
 
   return (
@@ -45,7 +45,11 @@ function ClerkWithConvex({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function SeedProvider({ children }: SeedProviderProps) {
+// =============================================================================
+// Component
+// =============================================================================
+
+export default function Component({ children }: Props) {
   return (
     <ThemeProvider
       attribute="class"
@@ -53,7 +57,7 @@ export function SeedProvider({ children }: SeedProviderProps) {
       enableSystem
       disableTransitionOnChange
     >
-      <ClerkWithConvex>{children}</ClerkWithConvex>
+      <ClerkProviderWithTheme>{children}</ClerkProviderWithTheme>
     </ThemeProvider>
   );
 }

@@ -1,5 +1,9 @@
-import { PageContainer } from "@/components/page-container";
+import Container from "@/components/container";
 
-export default function AllSketchesPage() {
-  return <PageContainer>{/* TODO: Add all sketches */}</PageContainer>;
+// =============================================================================
+// Page
+// =============================================================================
+
+export default function Page() {
+  return <Container>{/* Content */}</Container>;
 }

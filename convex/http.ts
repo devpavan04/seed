@@ -6,7 +6,34 @@ import { internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
 
 // =============================================================================
-// Router
+// Helpers
+// =============================================================================
+
+async function validateRequest(req: Request): Promise<WebhookEvent | null> {
+  const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error("Missing CLERK_WEBHOOK_SECRET environment variable");
+    return null;
+  }
+
+  const payloadString = await req.text();
+  const svixHeaders = {
+    "svix-id": req.headers.get("svix-id") ?? "",
+    "svix-timestamp": req.headers.get("svix-timestamp") ?? "",
+    "svix-signature": req.headers.get("svix-signature") ?? "",
+  };
+
+  const wh = new Webhook(webhookSecret);
+  try {
+    return wh.verify(payloadString, svixHeaders) as WebhookEvent;
+  } catch (error) {
+    console.error("Error verifying webhook:", error);
+    return null;
+  }
+}
+
+// =============================================================================
+// Routes
 // =============================================================================
 
 const http = httpRouter();
@@ -45,32 +72,5 @@ http.route({
     return new Response(null, { status: 200 });
   }),
 });
-
-// =============================================================================
-// Helpers
-// =============================================================================
-
-async function validateRequest(req: Request): Promise<WebhookEvent | null> {
-  const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
-  if (!webhookSecret) {
-    console.error("Missing CLERK_WEBHOOK_SECRET environment variable");
-    return null;
-  }
-
-  const payloadString = await req.text();
-  const svixHeaders = {
-    "svix-id": req.headers.get("svix-id") ?? "",
-    "svix-timestamp": req.headers.get("svix-timestamp") ?? "",
-    "svix-signature": req.headers.get("svix-signature") ?? "",
-  };
-
-  const wh = new Webhook(webhookSecret);
-  try {
-    return wh.verify(payloadString, svixHeaders) as WebhookEvent;
-  } catch (error) {
-    console.error("Error verifying webhook:", error);
-    return null;
-  }
-}
 
 export default http;
